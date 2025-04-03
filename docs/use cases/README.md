@@ -104,3 +104,30 @@ start
 stop
 
 @enduml
+
+@startuml
+
+skinparam ActivityBackgroundColor #d1a6e2
+
+|Користувач|
+start;
+:відкриває сторінку реєстрації;
+:вносить необхідні дані;
+
+|Система|
+:перевіряє введену інформацію;
+note right
+<b>Possible error:
+
+- InvalidDataException
+- AlreadyRegisteredException
+end note
+
+:створює обліковий запис;
+:фіксує реєстраційні дані користувача;
+
+|Користувач|
+:отримує повідомлення про успішну реєстрацію;
+
+stop;
+@enduml
