@@ -9,6 +9,48 @@
 Вбудовування зображень діаграм здійснюється з використанням сервісу [plantuml.com](https://plantuml.com/). 
 
 ## Діаграма для всіх бізнес акторів
+@startuml
+
+actor Користувач as User #ffffff
+actor Адміністратор as Admin #ffaaaa
+actor Респондент as Respondent #aaffaf
+actor Аналітик as Analyst #aaaaff
+
+usecase "Реєстрація" as Reg
+usecase "Створення опитування" as Create
+usecase "Редагування опитування" as Edit
+usecase "Поширення опитування" as Share
+
+usecase "Керування акаунтами \n користувачів" as UserManagement
+usecase "Керування опитуваннями" as FormManagement
+usecase "Керування рівнем доступу" as Access
+
+usecase "Заповнення опитування" as Write
+
+usecase "Перегляд та обробка даних" as Analysis
+usecase "Візуалізація результатів" as View
+usecase "Формування звітів" as Reports
+
+Admin -up-|> User
+Respondent -up-|> User
+Analyst -up-|> User
+
+User -up-> Reg
+User -up-> Create
+User -up-> Edit
+User -up-> Share
+
+Admin -down-> UserManagement
+Admin -down-> FormManagement
+Admin -down-> Access
+
+Respondent -down-> Write
+
+Analyst -down-> Analysis
+Analyst -down-> View
+Analyst -down-> Reports
+
+@enduml
 
 ## Діаграма для користувача
 
@@ -136,4 +178,31 @@ end note
 
 stop
 
+@enduml
+
+@startuml
+
+skinparam ActivityBackgroundColor #d1a6e2
+
+|Користувач|
+start;
+:відкриває сторінку реєстрації;
+:вносить необхідні дані;
+
+|Система|
+:перевіряє введену інформацію;
+note right
+<b>Possible error:
+
+- InvalidDataException
+- AlreadyRegisteredException
+end note
+
+:створює обліковий запис;
+:фіксує реєстраційні дані користувача;
+
+|Користувач|
+:отримує повідомлення про успішну реєстрацію;
+
+stop;
 @enduml
