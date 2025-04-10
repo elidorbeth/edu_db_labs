@@ -56,6 +56,67 @@ Analyst -down-> Reports
 
 ## Діаграма для адміністратора
 
+@startuml
+actor "Адміністратор" as Admin #ffaaaa
+
+' === Група 1: Панель доступу (вгору) ===
+usecase "Авторизація" as Auth
+usecase "Реєстрація" as Reg
+usecase "Скидання пароля" as Reset
+usecase "Керування обліковими записами" as Account
+usecase "Перевірка дій користувача" as LogsReview
+usecase "Панель доступу" as AccessPanel
+
+' === Група 2: Опитування та аналітика (вниз + вправо) ===
+usecase "Створити опитування" as Create
+usecase "Видалити опитування" as Delete
+usecase "Результати користувача" as Results
+usecase "Статистика опитувань" as Stats
+usecase "Пройти опитування" as Take
+usecase "Брати участь в опитуваннях" as Complete
+usecase "Керування опитуваннями" as Manage
+usecase "Редагувати опитування" as Edit
+usecase "Подивитися результати" as See
+usecase "Поділитися посиланням" as Share
+usecase "Опитування та аналітика" as SurveyAnalytics
+
+' === Група 3: Комунікація з користувачами (вліво) ===
+usecase "Надіслати сповіщення" as Notify
+usecase "Журнал дій" as Logs
+usecase "Комунікація з користувачами" as Communication
+
+' === Зв’язки адміністратора з групами ===
+Admin -up-> AccessPanel
+Admin -down-> SurveyAnalytics
+Admin -left-> Communication
+
+' === Підгрупа 1 — Панель доступу (вгору) ===
+AccessPanel -up-> Auth
+AccessPanel -up-> Reg
+AccessPanel -up-> Reset
+AccessPanel -up-> Account
+AccessPanel -up-> LogsReview
+
+' === Підгрупа 2 — Опитування та аналітика ===
+' вниз
+SurveyAnalytics -down-> Create
+SurveyAnalytics -down-> Delete
+SurveyAnalytics -down-> Results
+SurveyAnalytics -down-> Stats
+SurveyAnalytics -down-> Take
+SurveyAnalytics -down-> Complete
+SurveyAnalytics -down-> Manage
+' вправо
+SurveyAnalytics -right-> Edit
+SurveyAnalytics -right-> See
+SurveyAnalytics -right-> Share
+
+' === Підгрупа 3 — Комунікація (вліво) ===
+Communication -left-> Notify
+Communication -left-> Logs
+@enduml
+
+
 ## Діаграма для респондента
 
 ## Діаграма для аналітика
