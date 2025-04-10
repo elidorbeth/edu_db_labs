@@ -61,6 +61,34 @@ Analyst -down-> Reports
 ## Діаграма для аналітика
 
 
+@startuml
+title Діаграма use case аналітика
+
+actor "Аналітик" as Analyst #aaaaff
+
+usecase "Перегляд та обробка даних" as ViewProcessData
+usecase "Візуалізація результатів" as VisualizeResults
+usecase "Формування звітів" as GenerateReports
+
+usecase "Експортувати дані у формат XLSX" as ExportCSV
+usecase "Фільтрація результатів" as FilterResults
+usecase "Побудова графіків" as BuildCharts
+usecase "Порівняльний аналіз результатів" as CompareResults
+usecase "Генерація PDF звіту" as GeneratePDF
+
+Analyst --> ViewProcessData
+Analyst --> VisualizeResults
+Analyst --> GenerateReports
+
+ViewProcessData <|-- ExportCSV : <<extend>>
+ViewProcessData <|-- FilterResults : <<extend>>
+
+VisualizeResults <|-- BuildCharts : <<extend>>
+VisualizeResults <|-- CompareResults : <<extend>>
+
+GenerateReports <|-- GeneratePDF : <<extend>>
+@enduml
+
 
 # Діаграми діяльностей
 ### Реєстрація користувача
