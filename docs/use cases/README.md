@@ -57,64 +57,57 @@ Analyst -down-> Reports
 ## Діаграма для адміністратора
 
 @startuml
+title Діаграма use case адміністратора
+
 actor "Адміністратор" as Admin #ffaaaa
 
-' === Група 1: Панель доступу (вгору) ===
 usecase "Авторизація" as Auth
 usecase "Реєстрація" as Reg
 usecase "Скидання пароля" as Reset
 usecase "Керування обліковими записами" as Account
 usecase "Перевірка дій користувача" as LogsReview
-usecase "Панель доступу" as AccessPanel
-
-' === Група 2: Опитування та аналітика (вниз + вправо) ===
+usecase "Керування акаунтами користувачів" as UserAccounts
 usecase "Створити опитування" as Create
 usecase "Видалити опитування" as Delete
 usecase "Результати користувача" as Results
 usecase "Статистика опитувань" as Stats
 usecase "Пройти опитування" as Take
 usecase "Брати участь в опитуваннях" as Complete
-usecase "Керування опитуваннями" as Manage
 usecase "Редагувати опитування" as Edit
 usecase "Подивитися результати" as See
 usecase "Поділитися посиланням" as Share
-usecase "Опитування та аналітика" as SurveyAnalytics
 
-' === Група 3: Комунікація з користувачами (вліво) ===
+usecase "Керування опитуваннями" as SurveyControl
+
 usecase "Надіслати сповіщення" as Notify
 usecase "Журнал дій" as Logs
-usecase "Комунікація з користувачами" as Communication
+usecase "Керування рівнем доступу" as AccessControl
 
-' === Зв’язки адміністратора з групами ===
-Admin -up-> AccessPanel
-Admin -down-> SurveyAnalytics
-Admin -left-> Communication
+UserAccounts -up..> Admin
+SurveyControl -down..> Admin
+AccessControl -left..> Admin
 
-' === Підгрупа 1 — Панель доступу (вгору) ===
-AccessPanel -up-> Auth
-AccessPanel -up-> Reg
-AccessPanel -up-> Reset
-AccessPanel -up-> Account
-AccessPanel -up-> LogsReview
+Auth -up..> UserAccounts : <<extend>>
+Reg -up..> UserAccounts : <<extend>>
+Reset -up..> UserAccounts : <<extend>>
+Account -up..> UserAccounts : <<extend>>
+LogsReview -up..> UserAccounts : <<extend>>
 
-' === Підгрупа 2 — Опитування та аналітика ===
-' вниз
-SurveyAnalytics -down-> Create
-SurveyAnalytics -down-> Delete
-SurveyAnalytics -down-> Results
-SurveyAnalytics -down-> Stats
-SurveyAnalytics -down-> Take
-SurveyAnalytics -down-> Complete
-SurveyAnalytics -down-> Manage
-' вправо
-SurveyAnalytics -right-> Edit
-SurveyAnalytics -right-> See
-SurveyAnalytics -right-> Share
+Create -left..> SurveyControl
+Results -down..> SurveyControl : <<extend>>
+Stats -down..> SurveyControl : <<extend>>
+Take -down..> SurveyControl : <<extend>>
+Complete -down..> SurveyControl : <<extend>>
+Edit -left..> SurveyControl : <<extend>>
+Delete -down..> SurveyControl : <<extend>>
+See -right..> SurveyControl : <<extend>>
+Share -left..> SurveyControl : <<extend>>
 
-' === Підгрупа 3 — Комунікація (вліво) ===
-Communication -left-> Notify
-Communication -left-> Logs
+Notify ..> AccessControl : <<extend>>
+Logs ..> AccessControl : <<extend>>
 @enduml
+
+
 
 
 ## Діаграма для респондента
