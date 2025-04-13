@@ -54,6 +54,62 @@ Analyst -down-> Reports
 
 ## Діаграма для користувача
 
+@startuml
+
+actor Користувач as User #ffffff
+
+usecase "Реєстрація\n користувача" as Reg
+usecase "Створення\n опитування" as Create
+usecase "Редагування\n опитування" as Edit
+usecase "Поширення\n опитування" as Share
+
+usecase "Вибір типу\n користувача" as Reg_1 
+usecase "Вхід через\n Google" as Reg_2 
+usecase "Введення\n персональних даних" as Reg_3 
+
+usecase "Налаштування\n опитування" as Create_1
+usecase "Створення\n питань" as Create_2
+
+usecase "Видалення\n питання" as Edit_1
+usecase "Редагування\n питання" as Edit_2
+usecase "Закриття\n опитування" as Edit_3
+usecase "Видалення\n опитування" as Edit_4
+usecase "Внесення змін до \n налаштувань опитування" as Edit_5
+
+
+usecase "Вибір методу\n розсилки опитування" as Share_1
+usecase "Надсилання\n опитування" as Share_2
+
+usecase "Підтвердження змін" as Con
+
+
+User -u-> Reg
+User -u-> Create
+User --> Edit
+User --> Share
+
+Reg .up.> Reg_1 : <<include>>
+Reg_1 <.r. Reg_2 : <<extend>>
+Reg_1 <.l. Reg_3 : <<extend>>
+
+Create .up.> Create_1 : <<include>>
+Create .up.> Create_2 : <<include>>
+
+Edit <.l. Edit_1 : <<extend>>
+Edit <.r. Edit_2 : <<extend>>
+Edit <.. Edit_3 : <<extend>>
+Edit <.. Edit_4 : <<extend>>
+Edit <.. Edit_5 : <<extend>>
+
+Edit_3 ..> Con : <<include>>
+Edit_4 ..> Con : <<include>>
+Edit_5 ..> Con : <<include>>
+
+Share ..> Share_1 : <<include>>
+Share_1 ..> Share_2 : <<include>>
+
+@enduml
+
 ## Діаграма для адміністратора
 
 @startuml
