@@ -56,6 +56,60 @@ Analyst -down-> Reports
 
 ## Діаграма для адміністратора
 
+@startuml
+title Діаграма use case адміністратора
+
+actor "Адміністратор" as Admin #ffaaaa
+
+usecase "Авторизація" as Auth
+usecase "Реєстрація" as Reg
+usecase "Скидання пароля" as Reset
+usecase "Керування обліковими записами" as Account
+usecase "Перевірка дій користувача" as LogsReview
+usecase "Керування акаунтами користувачів" as UserAccounts
+usecase "Створити опитування" as Create
+usecase "Видалити опитування" as Delete
+usecase "Результати користувача" as Results
+usecase "Статистика опитувань" as Stats
+usecase "Пройти опитування" as Take
+usecase "Брати участь в опитуваннях" as Complete
+usecase "Редагувати опитування" as Edit
+usecase "Подивитися результати" as See
+usecase "Поділитися посиланням" as Share
+
+usecase "Керування опитуваннями" as SurveyControl
+
+usecase "Надіслати сповіщення" as Notify
+usecase "Журнал дій" as Logs
+usecase "Керування рівнем доступу" as AccessControl
+
+UserAccounts -up..> Admin
+SurveyControl -down..> Admin
+AccessControl -left..> Admin
+
+Auth -up..> UserAccounts : <<extend>>
+Reg -up..> UserAccounts : <<extend>>
+Reset -up..> UserAccounts : <<extend>>
+Account -up..> UserAccounts : <<extend>>
+LogsReview -up..> UserAccounts : <<extend>>
+
+Create -left..> SurveyControl
+Results -down..> SurveyControl : <<extend>>
+Stats -down..> SurveyControl : <<extend>>
+Take -down..> SurveyControl : <<extend>>
+Complete -down..> SurveyControl : <<extend>>
+Edit -left..> SurveyControl : <<extend>>
+Delete -down..> SurveyControl : <<extend>>
+See -right..> SurveyControl : <<extend>>
+Share -left..> SurveyControl : <<extend>>
+
+Notify ..> AccessControl : <<extend>>
+Logs ..> AccessControl : <<extend>>
+@enduml
+
+
+
+
 ## Діаграма для респондента
 
 ## Діаграма для аналітика
