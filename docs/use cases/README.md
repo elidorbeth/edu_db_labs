@@ -167,6 +167,29 @@ Logs ..> AccessControl : <<extend>>
 
 
 ## Діаграма для респондента
+@startuml
+title Діаграма use case респондента
+
+actor "Респондент" as Respondent #aaffaa
+
+usecase "Перегляд доступних опитувань" as ViewSurveys
+usecase "Заповнення опитування" as FillSurvey
+usecase "Збереження чернетки" as SaveDraft
+usecase "Надсилання відповідей" as SubmitAnswers
+usecase "Перегляд результатів (якщо дозволено)" as ViewResults
+usecase "Отримання підтвердження про участь" as ReceiveConfirmation
+
+Respondent ..> ViewSurveys
+Respondent ..> FillSurvey
+
+FillSurvey <|.. SaveDraft : <<extend>>
+FillSurvey <|.. SubmitAnswers : <<extend>>
+SubmitAnswers <|.. ReceiveConfirmation : <<extend>>
+
+Respondent ..> ViewResults : <<optional>>
+
+@enduml
+
 
 ## Діаграма для аналітика
 
