@@ -1,13 +1,3 @@
-'# Модель прецедентів
-
-В цьому файлі необхідно перелічити всі документи, розроблені в проекті та дати посилання на них.
-
-*Модель прецедентів повинна містити загальні оглядові діаграми та специфікації прецедентів.*
-
-
-
-Вбудовування зображень діаграм здійснюється з використанням сервісу [plantuml.com](https://plantuml.com/). 
-
 ## Діаграма для всіх бізнес акторів
 @startuml
 
@@ -25,7 +15,10 @@ usecase "Керування акаунтами \n користувачів" as U
 usecase "Керування опитуваннями" as FormManagement
 usecase "Керування рівнем доступу" as Access
 
-usecase "Заповнення опитування" as Write
+usecase "Заповнення опитування" as FillSurvey
+usecase "Перегляд доступних опитувань" as ViewSurveys
+usecase "Перегляд результатів" as ViewResults
+
 
 usecase "Перегляд та обробка даних" as Analysis
 usecase "Візуалізація результатів" as View
@@ -44,7 +37,9 @@ Admin -down-> UserManagement
 Admin -down-> FormManagement
 Admin -down-> Access
 
-Respondent -down-> Write
+Respondent -down-> ViewSurveys
+Respondent -down-> FillSurvey
+Respondent -down-> ViewResults : <<optional>>
 
 Analyst -down-> Analysis
 Analyst -down-> View
@@ -139,9 +134,9 @@ usecase "Надіслати сповіщення" as Notify
 usecase "Журнал дій" as Logs
 usecase "Керування рівнем доступу" as AccessControl
 
-UserAccounts -up..> Admin
-SurveyControl -down..> Admin
-AccessControl -left..> Admin
+Admin --> UserAccounts
+Admin -up-> SurveyControl 
+Admin --> AccessControl
 
 Auth -up..> UserAccounts : <<extend>>
 Reg -up..> UserAccounts : <<extend>>
@@ -149,7 +144,7 @@ Reset -up..> UserAccounts : <<extend>>
 Account -up..> UserAccounts : <<extend>>
 LogsReview -up..> UserAccounts : <<extend>>
 
-Create -left..> SurveyControl
+Create -..> SurveyControl
 Results -down..> SurveyControl : <<extend>>
 Stats -down..> SurveyControl : <<extend>>
 Take -down..> SurveyControl : <<extend>>
@@ -157,7 +152,7 @@ Complete -down..> SurveyControl : <<extend>>
 Edit -left..> SurveyControl : <<extend>>
 Delete -down..> SurveyControl : <<extend>>
 See -right..> SurveyControl : <<extend>>
-Share -left..> SurveyControl : <<extend>>
+Share -..> SurveyControl : <<extend>>
 
 Notify ..> AccessControl : <<extend>>
 Logs ..> AccessControl : <<extend>>
@@ -179,14 +174,15 @@ usecase "Надсилання відповідей" as SubmitAnswers
 usecase "Перегляд результатів (якщо дозволено)" as ViewResults
 usecase "Отримання підтвердження про участь" as ReceiveConfirmation
 
-Respondent ..> ViewSurveys
-Respondent ..> FillSurvey
+Respondent --> ViewSurveys
+Respondent --> FillSurvey
+Respondent --> ViewResults : <<optional>>
 
 FillSurvey <|.. SaveDraft : <<extend>>
 FillSurvey <|.. SubmitAnswers : <<extend>>
 SubmitAnswers <|.. ReceiveConfirmation : <<extend>>
 
-Respondent ..> ViewResults : <<optional>>
+
 
 @enduml
 
@@ -253,9 +249,9 @@ start
 
 :обробляє отримані дані;
 note right #ffaaaa
-<b> Може виникнути:
-<b> Неправильні дані
-<b> Вже зареестрований користувач
+<b>Виключні ситуації:
+<b>EX.001.001: Користувач ввів уже зареєстрований email
+<b>EX.001.002:  Введені дані не відповідають вимогам системи
 end note
 
 :створює обліковий запис;
@@ -289,8 +285,8 @@ start
 |Система|
 :перевіряє права доступу;
 note right #ffaaaa
-<b> Може виникнути:
-<b> Доступ заблоковано(EX.001.003)
+<b>Виключні ситуації:
+<b>EX.001.003: Недостатні права доступу
 end note
 :створює шаблон для\nстворення опитування;
 
@@ -302,8 +298,8 @@ end note
 |Система|
 :перевіряє заповнення обов'язкових полів;
 note right #ffaaaa
-<b> Може виникнути:
-<b> Некоректні дані опитування (EX.001.004)
+<b>Виключні ситуації:
+<b>EX.001.004: Порожні або некоректно заповнені обов'язкові поля
 end note
 :створює опитування;
 :підтверджує створення опитування;
@@ -334,11 +330,11 @@ start
 :Обирає опитування для редагування;
 note right #ffaaaa
    <b>Виключні ситуації:
-   <b>EX.001.005: Недостатні права
-   <b>EX.001.007: Заблоковане опитування
+   <b>EX.001.005: Недостатні права доступу
+   <b>EX.001.007: Опитування заборонене до змін
 end note
 
-|#AntiqueWhite|Система|
+|Система|
 :Відображає деталі опитування;
 
 |Користувач|
@@ -348,7 +344,7 @@ end note
 |Система|
 :Валідує дані;
 note right #ffaaaa
-   <b>EX.001.006: Невірні поля
+   <b>EX.001.006: Невірно заповнені поля
 end note
 :Зберігає зміни;
 :Повідомляє про успіх;
@@ -378,13 +374,13 @@ start
 :Розпочинає взаємодію;
 :Обирає метод розсилки;
 note right #ffaaaa
-   <b>EX.001.009: Відсутній доступ
+   <b>EX.001.009: Відсутність доступу до поширення
 end note
 
-|#AntiqueWhite|Система|
+|Система|
 :Генерує посилання;
 note right #ffaaaa
-   <b>EX.001.008: Некоректні адресати
+   <b>EX.001.008: Некоректно вказані адресати
 end note
 
 |Користувач|
@@ -427,7 +423,7 @@ note right #ffaaaa
    <b>EX.001.011:Переривання сеансу
 end note
 
-|#AntiqueWhite|Система|
+|Система|
 :Зберігає дані та підтверджує успішне заповнення;
 
 |Користувач|
@@ -457,7 +453,7 @@ start
 :Розпочинає взаємодію;
 :Натискає кнопку "Згенерувати звіт";
 
-|#AntiqueWhite|Система|
+|Система|
 :Збирає та обробляє отримані відповіді;
 note right #ffaaaa
    <b>Виключні ситуації:
@@ -474,29 +470,3 @@ stop
 
 @enduml
 
-@startuml
-
-skinparam ActivityBackgroundColor #d1a6e2
-
-|Користувач|
-start;
-:відкриває сторінку реєстрації;
-:вносить необхідні дані;
-
-|Система|
-:перевіряє введену інформацію;
-note right
-<b>Possible error:
-
-- InvalidDataException
-- AlreadyRegisteredException
-end note
-
-:створює обліковий запис;
-:фіксує реєстраційні дані користувача;
-
-|Користувач|
-:отримує повідомлення про успішну реєстрацію;
-
-stop;
-@enduml
