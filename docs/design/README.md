@@ -3,94 +3,120 @@
 В рамках проекту розробляється: 
 - модель бізнес-об'єктів 
 @startuml
-
-' --- Сутності ---
-entity User #ffffff
-entity User.id
-entity User.first_name
-entity User.last_name
-entity User.email
-entity User.role
-
-entity Quiz
-entity Quiz.id
-entity Quiz.title
-entity Quiz.description
-entity Quiz.start_date
-entity Quiz.end_date
-entity Quiz.status
-
-entity QuizAssignment
-entity QuizAssignment.id
-entity QuizAssignment.user_id
-entity QuizAssignment.quiz_id
-
-entity Question
-entity Question.id
-entity Question.quiz_id
-entity Question.text
-entity Question.question_type
-
-entity Option
-entity Option.id
-entity Option.question_id
-entity Option.text
-
-entity Answer
-entity Answer.id
-entity Answer.user_id
-entity Answer.quiz_id
-entity Answer.question_id
-entity Answer.option_id
-entity Answer.text_answer
-
-' --- Композиція атрибутів до сутностей ---
 left to right direction
-User *-u- User.id
-User *-u- User.first_name
-User *-u- User.last_name
-User *-u- User.email
-User *-u- User.role
 
-Quiz *-u- Quiz.id
-Quiz *-u- Quiz.title
-Quiz *-u- Quiz.description
-Quiz *-u- Quiz.start_date
-Quiz *-u- Quiz.end_date
-Quiz *-u- Quiz.status
+entity User #ffd24d
+entity User.id #ffe699
+entity User.name #ffe699
+entity User.surname #ffe699
+entity User.email #ffe699
+entity User.password #ffe699
+entity User.permissions #ffe699
 
-QuizAssignment *-- QuizAssignment.id
-QuizAssignment *-- QuizAssignment.user_id
-QuizAssignment *-- QuizAssignment.quiz_id
+User.id -d-* User
+User.name -d-* User
+User.surname -d-* User
+User.email -d-* User
+User.password -d-* User
+User.permissions --* User
 
-Question *-u- Question.id
-Question *-u- Question.quiz_id
-Question *-u- Question.text
-Question *-u- Question.question_type
+entity Admin #a64dff
+entity Admin.id #d9b3ff
+entity Admin.name #d9b3ff
+entity Admin.surname #d9b3ff
+entity Admin.email #d9b3ff
+entity Admin.password #d9b3ff
+entity Admin.permissions #d9b3ff
 
-Option *-u- Option.id
-Option *-u- Option.question_id
-Option *-u- Option.text
+Admin.id -d-* Admin
+Admin.name -d-* Admin
+Admin.surname -d-* Admin
+Admin.email -d-* Admin
+Admin.password -d-* Admin
+Admin.permissions --* Admin
 
-Answer *-- Answer.id
-Answer *-- Answer.user_id
-Answer *-- Answer.quiz_id
-Answer *-- Answer.question_id
-Answer *-- Answer.option_id
-Answer *-- Answer.text_answer
+entity Permission #4d79ff
+entity Permission.id #b3c6ff
+entity Permission.name #b3c6ff
+entity Permission.description #b3c6ff
 
-' --- Зв'язки між основними сутностями з мультиплікацією ---
-User "1,1" -- "0..*" QuizAssignment : assigns
-Quiz "1,1" -- "0..*" QuizAssignment : assigned to
+Permission.id --* Permission
+Permission.name --* Permission
+Permission.description --* Permission
+entity Form #4dffff
+entity Form.id #b3ffff
+entity Form.name #b3ffff
+entity Form.description #b3ffff
+entity Form.content #b3ffff
 
-Quiz "1,1" -- "0..*" Question : contains
-Question "1,1" -- "0..*" Option
+Form.id -d-* Form
+Form.name -d-* Form
+Form.description -d-* Form
+Form.content --* Form
 
-User "1,1" -- "0..*" Answer
-Quiz "1,1" -- "0..*" Answer
-Question "1,1" -- "0..*" Answer : question answer
-Option "0..1" -- "0..*" Answer : selected option
+entity FormResults #a6ff4d
+entity FormResults.id #d9ffb3
+entity FormResults.formId #d9ffb3
+entity FormResults.answers #d9ffb3
 
+FormResults.id -d-* FormResults
+FormResults.formId -d-* FormResults
+FormResults.answers --* FormResults
+
+entity Content #4dff79
+entity Content.id #b3ffc6
+entity Content.type #b3ffc6
+
+Content.id -d-* Content
+Content.type --* Content
+
+entity OpenAnswer #4dffd2
+entity OpenAnswer.id #b3ffec
+entity OpenAnswer.text #b3ffec
+
+OpenAnswer.id --* OpenAnswer
+OpenAnswer.text --* OpenAnswer
+
+entity SingleChoice #4d4dff
+entity SingleChoice.id #b3b3ff
+entity SingleChoice.variant #b3b3ff
+
+SingleChoice.id --* SingleChoice
+SingleChoice.variant --* SingleChoice
+
+entity MultiChoice #ff4dd3
+entity MultiChoice.id #ffb3ec
+entity MultiChoice.variants #ffb3ec
+
+MultiChoice.id --* MultiChoice
+MultiChoice.variants --* MultiChoice
+
+entity UploadedMedia #ff4d4d
+entity UploadedMedia.id #ffb3b3
+entity UploadedMedia.source #ffb3b3
+
+UploadedMedia.id -d-* UploadedMedia
+UploadedMedia.source --* UploadedMedia
+
+entity UploadedMediaSource #e1ff4d
+entity UploadedMediaSource.id #f2ffb3
+entity UploadedMediaSource.url #f2ffb3
+
+UploadedMediaSource.id --* UploadedMediaSource
+UploadedMediaSource.url --* UploadedMediaSource
+
+User "1,1" -- "0,*" Permission
+Admin "1,1" -- "0,*" Permission
+
+Form "0,*" -- "1" FormResults
+Form "0,*" -- "1" Content
+Content "0,1" -- "1" OpenAnswer
+Content "0,1" -- "1" SingleChoice
+Content "0,1" -- "1" MultiChoice
+UploadedMedia "1" -- "1" UploadedMediaSource
+
+ConnectToProjectRequest -[hidden]- Form
+ConnectToProjectRequest -[hidden]- User
 @enduml
 
 - ER-модель
