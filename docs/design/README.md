@@ -151,7 +151,7 @@ Question "1,1" -- "0..*" Answer
 Option "0..1" -- "0..*" Answer
 
 User "1,1" -- "0..*" Course : creates
-Course "1,1" -- "1..*" Module : contains
+Course "1,1" -- "0..*" Module : contains
 Module "0..*" -- "0..*" Quiz : includes
 
 Role "1,1" -- "0..*" User
