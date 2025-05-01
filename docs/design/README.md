@@ -281,7 +281,7 @@ entity "Report" {
 
 "User" ||--o{ "Course"
 "Course" ||--o{ "Module"
-"Module" ||--o{ "Quiz"
+"Module" }o--o{ "Quiz"
 
 "Role" ||--o{ "User"
 "SurveyCategory" ||--o{ "Quiz"
