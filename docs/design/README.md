@@ -6,87 +6,87 @@
 left to right direction
 
 ' --- Сутності ---
-entity User #ffffff
-entity User.id
-entity User.first_name
-entity User.last_name
-entity User.email
-entity User.role
+entity User #ffd24d
+entity User.id #ffe699
+entity User.first_name #ffe699
+entity User.last_name #ffe699
+entity User.email #ffe699
 
-entity Role
-entity Role.id
-entity Role.name
 
-entity Quiz
-entity Quiz.id
-entity Quiz.title
-entity Quiz.description
-entity Quiz.start_date
-entity Quiz.end_date
-entity Quiz.status
+entity Role #ffe699
+entity Role.id #ffe699
+entity Role.name #ffe699
 
-entity QuizAssignment
-entity QuizAssignment.id
-entity QuizAssignment.user_id
-entity QuizAssignment.quiz_id
+entity Quiz #a64dff
+entity Quiz.id #a64dff
+entity Quiz.title #a64dff
+entity Quiz.description #a64dff
+entity Quiz.start_date #a64dff
+entity Quiz.end_date #a64dff
+entity Quiz.status #a64dff
 
-entity Question
-entity Question.id
-entity Question.quiz_id
-entity Question.text
-entity Question.question_type
+entity QuizAssignment#8e44ad
+entity QuizAssignment.id#a569bd
+entity QuizAssignment.user_id#a569bd
+entity QuizAssignment.quiz_id#a569bd
 
-entity Option
-entity Option.id
-entity Option.question_id
-entity Option.text
+entity Question#117864
+entity Question.id#0e6251
+entity Question.quiz_id#0e6251
+entity Question.text#0e6251
+entity Question.question_type#0e6251
 
-entity Answer
-entity Answer.id
-entity Answer.user_id
-entity Answer.quiz_id
-entity Answer.question_id
-entity Answer.option_id
-entity Answer.text_answer
+entity Option#17a589 
+entity Option.id#148f77 
+entity Option.question_id#148f77 
+entity Option.text#148f77 
 
-entity Course
-entity Course.id
-entity Course.title
-entity Course.description
-entity Course.instructor_id
-entity Course.duration_weeks
+entity Answer#1abc9c 
+entity Answer.id#48c9b0 
+entity Answer.user_id#48c9b0 
+entity Answer.quiz_id#48c9b0 
+entity Answer.question_id#48c9b0 
+entity Answer.option_id#48c9b0 
+entity Answer.text_answer#48c9b0 
 
-entity Module
-entity Module.id
-entity Module.course_id
-entity Module.title
-entity Module.order
-entity Module.content
+entity Course#4d79ff
+entity Course.id#b3c6ff
+entity Course.title#b3c6ff
+entity Course.description#b3c6ff
+entity Course.instructor_id#b3c6ff
+entity Course.duration_weeks#b3c6ff
 
-entity SurveyCategory
-entity SurveyCategory.id
-entity SurveyCategory.name
-entity SurveyCategory.description
+entity Module#b3c6ff
+entity Module.id#7fb3d5
+entity Module.course_id#7fb3d5
+entity Module.title#7fb3d5
+entity Module.order#7fb3d5
+entity Module.content#7fb3d5
 
-entity SurveyResult
-entity SurveyResult.id
-entity SurveyResult.quiz_id
-entity SurveyResult.respondent_count
-entity SurveyResult.created_at
+entity quizCategory#a64dff
+entity quizCategory.id#d9b3ff
+entity quizCategory.name#d9b3ff
+entity quizCategory.description#d9b3ff
 
-entity Report
-entity Report.id
-entity Report.survey_result_id
-entity Report.format
-entity Report.content
-entity Report.created_at
+entity quizResult#9b59b6
+entity quizResult.id#d7bde2 
+entity quizResult.quiz_id#d7bde2 
+entity quizResult.respondent_count#d7bde2 
+entity quizResult.created_at#d7bde2 
+
+entity Report#cb4335
+entity Report.id#ec7063 
+entity Report.quiz_result_id#ec7063 
+entity Report.format#ec7063 
+entity Report.content#ec7063 
+entity Report.created_at#ec7063 
 
 ' --- Атрибути ---
 User *-u- User.id
 User *-u- User.first_name
 User *-u- User.last_name
 User *-u- User.email
-User *-u- User.role
+
 
 Quiz *-u- Quiz.id
 Quiz *-u- Quiz.title
@@ -130,17 +130,17 @@ Module *-- Module.content
 Role *-u- Role.id
 Role *-u- Role.name
 
-SurveyCategory *-u- SurveyCategory.id
-SurveyCategory *-u- SurveyCategory.name
-SurveyCategory *-u- SurveyCategory.description
+quizCategory *-u- quizCategory.id
+quizCategory *-u- quizCategory.name
+quizCategory *-u- quizCategory.description
 
-SurveyResult *-- SurveyResult.id
-SurveyResult *-- SurveyResult.quiz_id
-SurveyResult *-- SurveyResult.respondent_count
-SurveyResult *-- SurveyResult.created_at
+quizResult *-- quizResult.id
+quizResult *-- quizResult.quiz_id
+quizResult *-- quizResult.respondent_count
+quizResult *-- quizResult.created_at
 
 Report *-u- Report.id
-Report *-u- Report.survey_result_id
+Report *-u- Report.quiz_result_id
 Report *-u- Report.format
 Report *-u- Report.content
 Report *-u- Report.created_at
@@ -163,9 +163,9 @@ Module "0..*" -- "0..*" Quiz : includes
 
 Role "1,1" -- "0..*" User
 
-SurveyCategory "1,1" -- "0..*" Quiz
-Quiz "1,1" -- "0..1" SurveyResult
-SurveyResult "1,1" -- "0..1" Report
+quizCategory "1,1" -- "0..*" Quiz
+Quiz "1,1" -- "0..1" quizResult
+quizResult "1,1" -- "0..1" Report
 User "1,1" -- "0..*" Report
 
 @enduml
