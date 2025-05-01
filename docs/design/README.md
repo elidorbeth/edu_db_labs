@@ -5,199 +5,313 @@
 @startuml
 left to right direction
 
+' --- Сутності ---
 entity User #ffd24d
 entity User.id #ffe699
-entity User.name #ffe699
-entity User.surname #ffe699
+entity User.first_name #ffe699
+entity User.last_name #ffe699
 entity User.email #ffe699
-entity User.password #ffe699
-entity User.permissions #ffe699
 
-User.id -d-* User
-User.name -d-* User
-User.surname -d-* User
-User.email -d-* User
-User.password -d-* User
-User.permissions --* User
 
-entity Admin #a64dff
-entity Admin.id #d9b3ff
-entity Admin.name #d9b3ff
-entity Admin.surname #d9b3ff
-entity Admin.email #d9b3ff
-entity Admin.password #d9b3ff
-entity Admin.permissions #d9b3ff
+entity Role #ffe699
+entity Role.id #ffe699
+entity Role.name #ffe699
 
-Admin.id -d-* Admin
-Admin.name -d-* Admin
-Admin.surname -d-* Admin
-Admin.email -d-* Admin
-Admin.password -d-* Admin
-Admin.permissions --* Admin
+entity Quiz #a64dff
+entity Quiz.id #a64dff
+entity Quiz.title #a64dff
+entity Quiz.description #a64dff
+entity Quiz.start_date #a64dff
+entity Quiz.end_date #a64dff
+entity Quiz.status #a64dff
 
-entity Permission #4d79ff
-entity Permission.id #b3c6ff
-entity Permission.name #b3c6ff
-entity Permission.description #b3c6ff
+entity QuizAssignment#8e44ad
+entity QuizAssignment.id#a569bd
+entity QuizAssignment.user_id#a569bd
+entity QuizAssignment.quiz_id#a569bd
 
-Permission.id --* Permission
-Permission.name --* Permission
-Permission.description --* Permission
-entity Form #4dffff
-entity Form.id #b3ffff
-entity Form.name #b3ffff
-entity Form.description #b3ffff
-entity Form.content #b3ffff
+entity Question#117864
+entity Question.id#0e6251
+entity Question.quiz_id#0e6251
+entity Question.text#0e6251
+entity Question.question_type#0e6251
 
-Form.id -d-* Form
-Form.name -d-* Form
-Form.description -d-* Form
-Form.content --* Form
+entity Option#17a589 
+entity Option.id#148f77 
+entity Option.question_id#148f77 
+entity Option.text#148f77 
 
-entity FormResults #a6ff4d
-entity FormResults.id #d9ffb3
-entity FormResults.formId #d9ffb3
-entity FormResults.answers #d9ffb3
+entity Answer#1abc9c 
+entity Answer.id#48c9b0 
+entity Answer.user_id#48c9b0 
+entity Answer.quiz_id#48c9b0 
+entity Answer.question_id#48c9b0 
+entity Answer.option_id#48c9b0 
+entity Answer.text_answer#48c9b0 
 
-FormResults.id -d-* FormResults
-FormResults.formId -d-* FormResults
-FormResults.answers --* FormResults
+entity Course#4d79ff
+entity Course.id#b3c6ff
+entity Course.title#b3c6ff
+entity Course.description#b3c6ff
+entity Course.instructor_id#b3c6ff
+entity Course.duration_weeks#b3c6ff
 
-entity Content #4dff79
-entity Content.id #b3ffc6
-entity Content.type #b3ffc6
+entity Module#b3c6ff
+entity Module.id#7fb3d5
+entity Module.course_id#7fb3d5
+entity Module.title#7fb3d5
+entity Module.order#7fb3d5
+entity Module.content#7fb3d5
 
-Content.id -d-* Content
-Content.type --* Content
+entity quizCategory#a64dff
+entity quizCategory.id#d9b3ff
+entity quizCategory.name#d9b3ff
+entity quizCategory.description#d9b3ff
 
-entity OpenAnswer #4dffd2
-entity OpenAnswer.id #b3ffec
-entity OpenAnswer.text #b3ffec
+entity quizResult#9b59b6
+entity quizResult.id#d7bde2 
+entity quizResult.quiz_id#d7bde2 
+entity quizResult.respondent_count#d7bde2 
+entity quizResult.created_at#d7bde2 
 
-OpenAnswer.id --* OpenAnswer
-OpenAnswer.text --* OpenAnswer
+entity Report#cb4335
+entity Report.id#ec7063 
+entity Report.quiz_result_id#ec7063 
+entity Report.format#ec7063 
+entity Report.content#ec7063 
+entity Report.created_at#ec7063 
 
-entity SingleChoice #4d4dff
-entity SingleChoice.id #b3b3ff
-entity SingleChoice.variant #b3b3ff
+' --- Атрибути ---
+User *-u- User.id
+User *-u- User.first_name
+User *-u- User.last_name
+User *-u- User.email
 
-SingleChoice.id --* SingleChoice
-SingleChoice.variant --* SingleChoice
 
-entity MultiChoice #ff4dd3
-entity MultiChoice.id #ffb3ec
-entity MultiChoice.variants #ffb3ec
+Quiz *-u- Quiz.id
+Quiz *-u- Quiz.title
+Quiz *-u- Quiz.description
+Quiz *-u- Quiz.start_date
+Quiz *-u- Quiz.end_date
+Quiz *-u- Quiz.status
 
-MultiChoice.id --* MultiChoice
-MultiChoice.variants --* MultiChoice
+QuizAssignment *-- QuizAssignment.id
+QuizAssignment *-- QuizAssignment.user_id
+QuizAssignment *-- QuizAssignment.quiz_id
 
-entity UploadedMedia #ff4d4d
-entity UploadedMedia.id #ffb3b3
-entity UploadedMedia.source #ffb3b3
+Question *-u- Question.id
+Question *-u- Question.quiz_id
+Question *-u- Question.text
+Question *-u- Question.question_type
 
-UploadedMedia.id -d-* UploadedMedia
-UploadedMedia.source --* UploadedMedia
+Option *-u- Option.id
+Option *-u- Option.question_id
+Option *-u- Option.text
 
-entity UploadedMediaSource #e1ff4d
-entity UploadedMediaSource.id #f2ffb3
-entity UploadedMediaSource.url #f2ffb3
+Answer *-- Answer.id
+Answer *-- Answer.user_id
+Answer *-- Answer.quiz_id
+Answer *-- Answer.question_id
+Answer *-- Answer.option_id
+Answer *-- Answer.text_answer
 
-UploadedMediaSource.id --* UploadedMediaSource
-UploadedMediaSource.url --* UploadedMediaSource
+Course *-- Course.id
+Course *-- Course.title
+Course *-- Course.description
+Course *-- Course.instructor_id
+Course *-- Course.duration_weeks
 
-User "1,1" -- "0,*" Permission
-Admin "1,1" -- "0,*" Permission
+Module *-- Module.id
+Module *-- Module.course_id
+Module *-- Module.title
+Module *-- Module.order
+Module *-- Module.content
 
-Form "0,*" -- "1" FormResults
-Form "0,*" -- "1" Content
-Content "0,1" -- "1" OpenAnswer
-Content "0,1" -- "1" SingleChoice
-Content "0,1" -- "1" MultiChoice
-UploadedMedia "1" -- "1" UploadedMediaSource
+Role *-u- Role.id
+Role *-u- Role.name
 
-ConnectToProjectRequest -[hidden]- Form
-ConnectToProjectRequest -[hidden]- User
+quizCategory *-u- quizCategory.id
+quizCategory *-u- quizCategory.name
+quizCategory *-u- quizCategory.description
+
+quizResult *-- quizResult.id
+quizResult *-- quizResult.quiz_id
+quizResult *-- quizResult.respondent_count
+quizResult *-- quizResult.created_at
+
+Report *-u- Report.id
+Report *-u- Report.quiz_result_id
+Report *-u- Report.format
+Report *-u- Report.content
+Report *-u- Report.created_at
+
+' --- Зв’язки між сутностями ---
+User "1,1" -- "0..*" QuizAssignment : assigns
+Quiz "1,1" -- "0..*" QuizAssignment : assigned to
+
+Quiz "1,1" -- "0..*" Question : contains
+Question "1,1" -- "0..*" Option
+
+User "1,1" -- "0..*" Answer
+Quiz "1,1" -- "0..*" Answer
+Question "1,1" -- "0..*" Answer : question answer
+Option "0..1" -- "0..*" Answer : selected option
+
+User "1,1" -- "0..*" Course : creates
+Course "1,1" -- "1..*" Module : contains
+Module "0..*" -- "0..*" Quiz : includes
+
+Role "1,1" -- "0..*" User
+
+quizCategory "1,1" -- "0..*" Quiz
+Quiz "1,1" -- "0..1" quizResult
+quizResult "1,1" -- "0..1" Report
+User "1,1" -- "0..*" Report
+
 @enduml
 
 - ER-модель
 @startuml
-' Налаштування вигляду
 skinparam linetype ortho
 
 ' --- Сутності ---
 entity "User" {
-    + id : INT
-    --
-    first_name : STRING
-    last_name : STRING
-    email : STRING
-    role : STRING
+  + id : INT
+  --
+  first_name : STRING
+  last_name : STRING
+  email : STRING
+  role : STRING
+}
+
+entity "Role" {
+  + id : INT
+  --
+  name : STRING
 }
 
 entity "Quiz" {
-    + id : INT
-    --
-    title : STRING
-    description : STRING
-    start_date : DATE
-    end_date : DATE
-    status : STRING
+  + id : INT
+  --
+  title : STRING
+  description : STRING
+  start_date : DATE
+  end_date : DATE
+  status : STRING
 }
 
 entity "QuizAssignment" {
-    + id : INT
-    --
-    user_id : INT
-    quiz_id : INT
+  + id : INT
+  --
+  user_id : INT
+  quiz_id : INT
 }
 
 entity "Question" {
-    + id : INT
-    --
-    quiz_id : INT
-    text : STRING
-    question_type : STRING
+  + id : INT
+  --
+  quiz_id : INT
+  text : STRING
+  question_type : STRING
 }
 
 entity "Option" {
-    + id : INT
-    --
-    question_id : INT
-    text : STRING
+  + id : INT
+  --
+  question_id : INT
+  text : STRING
 }
 
 entity "Answer" {
-    + id : INT
-    --
-    user_id : INT
-    quiz_id : INT
-    question_id : INT
-    option_id : INT
-    text_answer : STRING
+  + id : INT
+  --
+  user_id : INT
+  quiz_id : INT
+  question_id : INT
+  option_id : INT
+  text_answer : STRING
 }
 
-' --- Зв'язки між сутностями ---
-"User" ||--o{ "QuizAssignment" : assigns
-"Quiz" ||--o{ "QuizAssignment" : assigned to
+entity "Course" {
+  + id : INT
+  --
+  title : STRING
+  description : STRING
+  instructor_id : INT
+  duration_weeks : INT
+}
 
-"Quiz" ||--o{ "Question" : contains
+entity "Module" {
+  + id : INT
+  --
+  course_id : INT
+  title : STRING
+  order : INT
+  content : TEXT
+}
+
+entity "SurveyCategory" {
+  + id : INT
+  --
+  name : STRING
+  description : STRING
+}
+
+entity "SurveyResult" {
+  + id : INT
+  --
+  quiz_id : INT
+  respondent_count : INT
+  created_at : DATE
+}
+
+entity "Report" {
+  + id : INT
+  --
+  survey_result_id : INT
+  format : STRING
+  content : TEXT
+  created_at : DATE
+}
+
+' --- Зв’язки ---
+"User" ||--o{ "QuizAssignment"
+"Quiz" ||--o{ "QuizAssignment"
+
+"Quiz" ||--o{ "Question"
 "Question" ||--o{ "Option"
 
 "User" ||--o{ "Answer"
 "Quiz" ||--o{ "Answer"
-"Question" ||--o{ "Answer" : question answer
-"Option" |o--o{ "Answer" : selected option
+"Question" ||--o{ "Answer"
+"Option" |o--o{ "Answer"
+
+"User" ||--o{ "Course"
+"Course" ||--o{ "Module"
+"Module" ||--o{ "Quiz"
+
+"Role" ||--o{ "User"
+"SurveyCategory" ||--o{ "Quiz"
+"Quiz" ||--o| "SurveyResult"
+"SurveyResult" ||--o| "Report"
+"User" ||--o{ "Report"
 
 @enduml
 
 - реляційна схема
 
+```sql
 Table User {
   id int [pk]
   first_name varchar
   last_name varchar
   email varchar
   role varchar
+}
+
+Table Role {
+  id int [pk]
+  name varchar
 }
 
 Table Quiz {
@@ -237,14 +351,60 @@ Table Answer {
   text_answer text
 }
 
+Table Course {
+  id int [pk]
+  title varchar
+  description text
+  instructor_id int
+  duration_weeks int
+}
+
+Table Module {
+  id int [pk]
+  course_id int
+  title varchar
+  order int
+  content text
+}
+
+Table SurveyCategory {
+  id int [pk]
+  name varchar
+  description text
+}
+
+Table SurveyResult {
+  id int [pk]
+  quiz_id int
+  respondent_count int
+  created_at date
+}
+
+Table Report {
+  id int [pk]
+  survey_result_id int
+  format varchar
+  content text
+  created_at date
+}
+
 Ref: QuizAssignment.user_id > User.id
 Ref: QuizAssignment.quiz_id > Quiz.id
 
 Ref: Question.quiz_id > Quiz.id
-
 Ref: Option.question_id > Question.id
 
 Ref: Answer.user_id > User.id
 Ref: Answer.quiz_id > Quiz.id
 Ref: Answer.question_id > Question.id
 Ref: Answer.option_id > Option.id
+
+Ref: Course.instructor_id > User.id
+Ref: Module.course_id > Course.id
+Ref: Module.id > Quiz.id
+
+Ref: User.role > Role.id
+Ref: Quiz.id > SurveyResult.quiz_id
+Ref: SurveyCategory.id > Quiz.id
+Ref: SurveyResult.id > Report.survey_result_id
+Ref: Report.id > User.id
