@@ -6,16 +6,16 @@
 left to right direction
 
 ' --- Сутності ---
-entity User #ffd24d
-entity User.id #ffe699
-entity User.first_name #ffe699
-entity User.last_name #ffe699
-entity User.email #ffe699
+entity User #ffffff
+entity User.id #f2f3f4
+entity User.first_name #f2f3f4
+entity User.last_name #f2f3f4
+entity User.email #f2f3f4
 
 
-entity Role #ffe699
-entity Role.id #ffe699
-entity Role.name #ffe699
+entity Role #e5e5e5
+entity Role.id #d6d6d6
+entity Role.name #d6d6d6
 
 entity Quiz #a64dff
 entity Quiz.id #a64dff
@@ -25,61 +25,57 @@ entity Quiz.start_date #a64dff
 entity Quiz.end_date #a64dff
 entity Quiz.status #a64dff
 
-entity QuizAssignment#8e44ad
-entity QuizAssignment.id#a569bd
-entity QuizAssignment.user_id#a569bd
-entity QuizAssignment.quiz_id#a569bd
+entity QuizAssignment #8e44ad
+entity QuizAssignment.id #a569bd
+entity QuizAssignment.user_id #a569bd
+entity QuizAssignment.quiz_id #a569bd
 
-entity Question#117864
-entity Question.id#0e6251
-entity Question.quiz_id#0e6251
-entity Question.text#0e6251
-entity Question.question_type#0e6251
+entity Question #117864
+entity Question.id #0e6251
+entity Question.quiz_id #0e6251
+entity Question.text #0e6251
+entity Question.question_type #0e6251
 
-entity Option#17a589 
-entity Option.id#148f77 
-entity Option.question_id#148f77 
-entity Option.text#148f77 
+entity Option #17a589 
+entity Option.id #148f77 
+entity Option.question_id #148f77 
+entity Option.text #148f77 
 
-entity Answer#1abc9c 
-entity Answer.id#48c9b0 
-entity Answer.user_id#48c9b0 
-entity Answer.quiz_id#48c9b0 
-entity Answer.question_id#48c9b0 
-entity Answer.option_id#48c9b0 
-entity Answer.text_answer#48c9b0 
+entity Answer #1abc9c 
+entity Answer.id #96eedd
+entity Answer.user_id #96eedd 
+entity Answer.quiz_id #96eedd 
+entity Answer.question_id #96eedd 
+entity Answer.option_id #96eedd 
+entity Answer.text_answer #96eedd 
 
-entity Course#4d79ff
-entity Course.id#b3c6ff
-entity Course.title#b3c6ff
-entity Course.description#b3c6ff
-entity Course.instructor_id#b3c6ff
-entity Course.duration_weeks#b3c6ff
+entity Course #4d79ff
+entity Course.id #b3c6ff
+entity Course.title #b3c6ff
+entity Course.description #b3c6ff
+entity Course.duration_weeks #b3c6ff
 
-entity Module#b3c6ff
-entity Module.id#7fb3d5
-entity Module.course_id#7fb3d5
-entity Module.title#7fb3d5
-entity Module.order#7fb3d5
-entity Module.content#7fb3d5
+entity Module #000eb4
+entity Module.id #7fb3d5
+entity Module.course_id #7fb3d5
+entity Module.title #7fb3d5
+entity Module.content #7fb3d5
 
-entity quizCategory#a64dff
-entity quizCategory.id#d9b3ff
-entity quizCategory.name#d9b3ff
-entity quizCategory.description#d9b3ff
+entity quizCategory #a64dff
+entity quizCategory.id #d9b3ff
+entity quizCategory.name #d9b3ff
 
-entity quizResult#9b59b6
-entity quizResult.id#d7bde2 
-entity quizResult.quiz_id#d7bde2 
-entity quizResult.respondent_count#d7bde2 
-entity quizResult.created_at#d7bde2 
+entity quizResult #9b59b6
+entity quizResult.id #d7bde2 
+entity quizResult.quiz_id #d7bde2 
+entity quizResult.respondent_count #d7bde2 
 
-entity Report#cb4335
-entity Report.id#ec7063 
-entity Report.quiz_result_id#ec7063 
-entity Report.format#ec7063 
-entity Report.content#ec7063 
-entity Report.created_at#ec7063 
+entity Report #cb4335
+entity Report.id #ec7063 
+entity Report.quiz_result_id #ec7063 
+entity Report.format #ec7063 
+entity Report.content #ec7063
+entity Report.created_at #ec7063
 
 ' --- Атрибути ---
 User *-u- User.id
@@ -115,47 +111,44 @@ Answer *-- Answer.question_id
 Answer *-- Answer.option_id
 Answer *-- Answer.text_answer
 
-Course *-- Course.id
-Course *-- Course.title
-Course *-- Course.description
-Course *-- Course.instructor_id
-Course *-- Course.duration_weeks
+Course *-u- Course.id
+Course *-u- Course.title
+Course *-u- Course.description
+Course *-u- Course.duration_weeks
 
-Module *-- Module.id
-Module *-- Module.course_id
-Module *-- Module.title
-Module *-- Module.order
-Module *-- Module.content
+Module *-u- Module.id
+Module *-u- Module.course_id
+Module *-u- Module.title
+Module *-u- Module.content
 
 Role *-u- Role.id
 Role *-u- Role.name
 
 quizCategory *-u- quizCategory.id
 quizCategory *-u- quizCategory.name
-quizCategory *-u- quizCategory.description
 
 quizResult *-- quizResult.id
 quizResult *-- quizResult.quiz_id
 quizResult *-- quizResult.respondent_count
-quizResult *-- quizResult.created_at
 
-Report *-u- Report.id
-Report *-u- Report.quiz_result_id
-Report *-u- Report.format
-Report *-u- Report.content
-Report *-u- Report.created_at
+
+Report *-- Report.id
+Report *-- Report.quiz_result_id
+Report *-- Report.format
+Report *-- Report.content
+Report *-- Report.created_at
 
 ' --- Зв’язки між сутностями ---
-User "1,1" -- "0..*" QuizAssignment : assigns
-Quiz "1,1" -- "0..*" QuizAssignment : assigned to
+User "1,1" -- "0..*" QuizAssignment
+Quiz "1,1" -- "0..*" QuizAssignment
 
-Quiz "1,1" -- "0..*" Question : contains
+Quiz "1,1" -- "0..*" Question
 Question "1,1" -- "0..*" Option
 
 User "1,1" -- "0..*" Answer
 Quiz "1,1" -- "0..*" Answer
-Question "1,1" -- "0..*" Answer : question answer
-Option "0..1" -- "0..*" Answer : selected option
+Question "1,1" -- "0..*" Answer
+Option "0..1" -- "0..*" Answer
 
 User "1,1" -- "0..*" Course : creates
 Course "1,1" -- "1..*" Module : contains
