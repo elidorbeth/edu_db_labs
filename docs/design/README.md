@@ -44,8 +44,23 @@ entity Answer.question_id
 entity Answer.option_id
 entity Answer.text_answer
 
-' --- Композиція атрибутів до сутностей ---
+entity Course
+entity Course.id
+entity Course.title
+entity Course.description
+entity Course.instructor_id
+entity Course.duration_weeks
+
+entity Module
+entity Module.id
+entity Module.course_id
+entity Module.title
+entity Module.order
+entity Module.content
+
+' --- Композиція атрибутів ---
 left to right direction
+
 User *-u- User.id
 User *-u- User.first_name
 User *-u- User.last_name
@@ -79,7 +94,19 @@ Answer *-- Answer.question_id
 Answer *-- Answer.option_id
 Answer *-- Answer.text_answer
 
-' --- Зв'язки між основними сутностями з мультиплікацією ---
+Course *-- Course.id
+Course *-- Course.title
+Course *-- Course.description
+Course *-- Course.instructor_id
+Course *-- Course.duration_weeks
+
+Module *-- Module.id
+Module *-- Module.course_id
+Module *-- Module.title
+Module *-- Module.order
+Module *-- Module.content
+
+' --- Зв’язки між сутностями ---
 User "1,1" -- "0..*" QuizAssignment : assigns
 Quiz "1,1" -- "0..*" QuizAssignment : assigned to
 
@@ -91,78 +118,13 @@ Quiz "1,1" -- "0..*" Answer
 Question "1,1" -- "0..*" Answer : question answer
 Option "0..1" -- "0..*" Answer : selected option
 
-@enduml
-
-- ER-модель
-@startuml
-' Налаштування вигляду
-skinparam linetype ortho
-
-' --- Сутності ---
-entity "User" {
-    + id : INT
-    --
-    first_name : STRING
-    last_name : STRING
-    email : STRING
-    role : STRING
-}
-
-entity "Quiz" {
-    + id : INT
-    --
-    title : STRING
-    description : STRING
-    start_date : DATE
-    end_date : DATE
-    status : STRING
-}
-
-entity "QuizAssignment" {
-    + id : INT
-    --
-    user_id : INT
-    quiz_id : INT
-}
-
-entity "Question" {
-    + id : INT
-    --
-    quiz_id : INT
-    text : STRING
-    question_type : STRING
-}
-
-entity "Option" {
-    + id : INT
-    --
-    question_id : INT
-    text : STRING
-}
-
-entity "Answer" {
-    + id : INT
-    --
-    user_id : INT
-    quiz_id : INT
-    question_id : INT
-    option_id : INT
-    text_answer : STRING
-}
-
-' --- Зв'язки між сутностями ---
-"User" ||--o{ "QuizAssignment" : assigns
-"Quiz" ||--o{ "QuizAssignment" : assigned to
-
-"Quiz" ||--o{ "Question" : contains
-"Question" ||--o{ "Option"
-
-"User" ||--o{ "Answer"
-"Quiz" ||--o{ "Answer"
-"Question" ||--o{ "Answer" : question answer
-"Option" |o--o{ "Answer" : selected option
+' --- НОВІ ЗВ'ЯЗКИ ---
+User "1,1" -- "0..*" Course : creates
+Course "1,1" -- "1..*" Module : contains
+Module "0..*" -- "0..*" Quiz : includes
 
 @enduml
+
 
 - реляційна схема
 
