@@ -44,6 +44,29 @@ entity Answer.question_id
 entity Answer.option_id
 entity Answer.text_answer
 
+entity Role
+entity Role.id
+entity Role.name
+
+entity SurveyCategory
+entity SurveyCategory.id
+entity SurveyCategory.name
+entity SurveyCategory.description
+
+entity SurveyResult
+entity SurveyResult.id
+entity SurveyResult.quiz_id
+entity SurveyResult.respondent_count
+entity SurveyResult.created_at
+
+entity Report
+entity Report.id
+entity Report.survey_result_id
+entity Report.format
+entity Report.content
+entity Report.created_at
+
+
 ' --- Композиція атрибутів до сутностей ---
 left to right direction
 User *-u- User.id
@@ -79,6 +102,24 @@ Answer *-- Answer.question_id
 Answer *-- Answer.option_id
 Answer *-- Answer.text_answer
 
+Role *-u- Role.id
+Role *-u- Role.name
+
+SurveyCategory *-u- SurveyCategory.id
+SurveyCategory *-u- SurveyCategory.name
+SurveyCategory *-u- SurveyCategory.description
+
+SurveyResult *-- SurveyResult.id
+SurveyResult *-- SurveyResult.quiz_id
+SurveyResult *-- SurveyResult.respondent_count
+SurveyResult *-- SurveyResult.created_at
+
+Report *-u- Report.id
+Report *-u- Report.survey_result_id
+Report *-u- Report.format
+Report *-u- Report.content
+Report *-u- Report.created_at
+
 ' --- Зв'язки між основними сутностями з мультиплікацією ---
 User "1,1" -- "0..*" QuizAssignment : assigns
 Quiz "1,1" -- "0..*" QuizAssignment : assigned to
@@ -90,6 +131,13 @@ User "1,1" -- "0..*" Answer
 Quiz "1,1" -- "0..*" Answer
 Question "1,1" -- "0..*" Answer : question answer
 Option "0..1" -- "0..*" Answer : selected option
+
+Role "1,1" -- "0..*" User
+
+SurveyCategory "1,1" -- "0..*" Quiz
+Quiz "1,1" -- "0..1" SurveyResult
+SurveyResult "1,1" -- "0..1" Report
+User "1,1" -- "0..*" Report
 
 @enduml
 
