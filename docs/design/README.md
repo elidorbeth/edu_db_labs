@@ -239,7 +239,6 @@ entity "Module" {
   --
   course_id : INT
   title : STRING
-  order : INT
   content : TEXT
 }
 
@@ -254,7 +253,6 @@ entity "quizResult" {
   --
   quiz_id : INT
   respondent_count : INT
-  created_at : DATE
 }
 
 entity "Report" {
@@ -292,111 +290,4 @@ entity "Report" {
 
 - реляційна схема
 
-```sql
-Table User {
-  id int [pk]
-  first_name varchar
-  last_name varchar
-  email varchar
-  role varchar
-}
-
-Table Role {
-  id int [pk]
-  name varchar
-}
-
-Table Quiz {
-  id int [pk]
-  title varchar
-  description text
-  start_date date
-  end_date date
-  status varchar
-}
-
-Table QuizAssignment {
-  id int [pk]
-  user_id int
-  quiz_id int
-}
-
-Table Question {
-  id int [pk]
-  quiz_id int
-  text text
-  question_type varchar
-}
-
-Table Option {
-  id int [pk]
-  question_id int
-  text varchar
-}
-
-Table Answer {
-  id int [pk]
-  user_id int
-  quiz_id int
-  question_id int
-  option_id int
-  text_answer text
-}
-
-Table Course {
-  id int [pk]
-  title varchar
-  description text
-  instructor_id int
-  duration_weeks int
-}
-
-Table Module {
-  id int [pk]
-  course_id int
-  title varchar
-  order int
-  content text
-}
-
-Table SurveyCategory {
-  id int [pk]
-  name varchar
-  description text
-}
-
-Table SurveyResult {
-  id int [pk]
-  quiz_id int
-  respondent_count int
-  created_at date
-}
-
-Table Report {
-  id int [pk]
-  survey_result_id int
-  format varchar
-  content text
-  created_at date
-}
-
-Ref: QuizAssignment.user_id > User.id
-Ref: QuizAssignment.quiz_id > Quiz.id
-
-Ref: Question.quiz_id > Quiz.id
-Ref: Option.question_id > Question.id
-
-Ref: Answer.user_id > User.id
-Ref: Answer.quiz_id > Quiz.id
-Ref: Answer.question_id > Question.id
-Ref: Answer.option_id > Option.id
-
-Ref: Course.instructor_id > User.id
-Ref: Module.course_id > Course.id
-Ref: Module.id > Quiz.id
-
-Ref: User.role > Role.id
-Ref: Quiz.id > SurveyResult.quiz_id
-Ref: SurveyCategory.id > Quiz.id
-Ref: SurveyResult.id > Report.survey_result_id
-Ref: Report.id > User.id
+![схема](scheme.png)
