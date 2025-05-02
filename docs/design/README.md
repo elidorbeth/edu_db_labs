@@ -290,4 +290,4 @@ entity "Report" {
 
 - реляційна схема
 
-![схема](scheme.png)
+![схема](https://github.com/SukhovAndriy/edu_db_labs/raw/master/docs/design/scheme.png)
