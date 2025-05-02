@@ -171,9 +171,9 @@ skinparam linetype ortho
 entity "User" {
   + id : INT
   --
-  first_name : STRING
-  last_name : STRING
   email : STRING
+  last_name : STRING
+  first_name : STRING
   role : STRING
 }
 
@@ -191,6 +191,7 @@ entity "Quiz" {
   start_date : DATE
   end_date : DATE
   status : STRING
+  category : STRING
 }
 
 entity "QuizAssignment" {
@@ -230,7 +231,6 @@ entity "Course" {
   --
   title : STRING
   description : STRING
-  instructor_id : INT
   duration_weeks : INT
 }
 
@@ -243,14 +243,13 @@ entity "Module" {
   content : TEXT
 }
 
-entity "SurveyCategory" {
+entity "quizCategory" {
   + id : INT
   --
-  name : STRING
-  description : STRING
+  name : STRING  
 }
 
-entity "SurveyResult" {
+entity "quizResult" {
   + id : INT
   --
   quiz_id : INT
@@ -261,7 +260,7 @@ entity "SurveyResult" {
 entity "Report" {
   + id : INT
   --
-  survey_result_id : INT
+  quiz_result_id : INT
   format : STRING
   content : TEXT
   created_at : DATE
@@ -284,9 +283,9 @@ entity "Report" {
 "Module" }o--o{ "Quiz"
 
 "Role" ||--o{ "User"
-"SurveyCategory" ||--o{ "Quiz"
-"Quiz" ||--o| "SurveyResult"
-"SurveyResult" ||--o| "Report"
+"quizCategory" ||--o{ "Quiz"
+"Quiz" ||--o| "quizResult"
+"quizResult" ||--o| "Report"
 "User" ||--o{ "Report"
 
 @enduml
