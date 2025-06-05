@@ -4,7 +4,7 @@ def init_api(app):
     api = Api(
         app,
         version='1.0',
-        title='FORMSYS API',
+        title='REST API',
         description='Документація REST API для системи опитувань експертів',
         doc='/docs'
     )
